@@ -4,9 +4,6 @@ const styles = makeStyles((theme) => ({
   root: {
     backgroundColor: "lightBlue",
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   content: {
     flex: 1,
   },
