@@ -25,9 +25,6 @@ const App = () => {
       <div className={classes.content}>
         <Switch>
           <Route exact path="/">
-            Home
-          </Route>
-          <Route exact path="/squad1">
             <Squad1App />
           </Route>
           <Route exact path="/squad2">
