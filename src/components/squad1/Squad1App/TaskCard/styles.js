@@ -5,17 +5,20 @@ const styles = makeStyles((theme) => ({
     minWidth: 400,
   },
   paper: {
+    height: 90,
     padding: theme.spacing(2),
     color: theme.palette.text.secondary,
+    backgroundColor: theme.palette.grey.main,
+  },
+  container: {
+    height: "100%",
   },
   infoContainer: {
-    width: "85%",
+    marginLeft: "2%",
+    width: "83%",
   },
   buttonContainer: {
     width: "15%",
-  },
-  actionButton: {
-    fontSize: 50,
   },
   taskName: {
     marginRight: 15,
@@ -24,6 +27,16 @@ const styles = makeStyles((theme) => ({
   taskNameText: {
     fontWeight: "bold",
     fontSize: 18,
+  },
+
+  actionButton: {
+    fontSize: 40,
+  },
+  playButton: {
+    color: theme.palette.green.main,
+  },
+  pauseButton: {
+    color: "red",
   },
 }));
 
