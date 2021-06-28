@@ -45,15 +45,19 @@ const Squad1App = () => {
 
   return (
     <div className={classes.root}>
-      <Grid container direction="row" justify="center" alignItems="flex-start" spacing={8}>
-        <Grid item xs>
-          <CardsContainer title="En Progreso" tasks={inProgressTasks} />
-          <CardsContainer title="Pausadas" tasks={pausedTasks} />
+      <Grid container direction="row" justify="center" spacing={8}>
+        <Grid container item direction="column" spacing={1} xs>
+          {inProgressTasks.length !== 0 && (
+            <CardsContainer title="En Progreso" tasks={inProgressTasks} />
+          )}
+          {pausedTasks.length !== 0 && <CardsContainer title="Pausadas" tasks={pausedTasks} />}
         </Grid>
 
-        <Grid item xs>
-          <CardsContainer title="Backlog" tasks={createdTasks} />
-          <CardsContainer title="Completadas" tasks={completedTasks} />
+        <Grid container item direction="column" spacing={1} xs>
+          {createdTasks.length !== 0 && <CardsContainer title="Backlog" tasks={createdTasks} />}
+          {completedTasks.length !== 0 && (
+            <CardsContainer title="Completadas" tasks={completedTasks} />
+          )}
         </Grid>
       </Grid>
     </div>
