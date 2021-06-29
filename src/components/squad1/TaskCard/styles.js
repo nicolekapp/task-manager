@@ -26,7 +26,12 @@ const styles = makeStyles((theme) => ({
   },
   taskNameText: {
     fontWeight: "bold",
+    color: theme.palette.primary.main,
     fontSize: 18,
+    "&:hover": {
+      color: theme.palette.primary.dark,
+      cursor: "pointer",
+    },
   },
 
   actionButton: {
