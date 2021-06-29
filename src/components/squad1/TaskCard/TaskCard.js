@@ -12,11 +12,17 @@ import PauseButton from "@material-ui/icons/PauseCircleOutline";
 
 import styles from "./styles";
 
-const TaskCard = ({ task }) => {
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { changeModalVisibility } from "../../../../ducks/modalReducer";
+
+const TaskCard = ({ actions, task }) => {
   const classes = styles();
 
   const handlePlayAction = useCallback(() => console.log("PLAY ACTION"), []);
   const handlePauseAction = useCallback(() => console.log("PAUSE ACTION"), []);
+
+  const handleOpenTask = useCallback(() => actions.changeModalVisibility(task), [actions, task]);
 
   const [actionIcon, setActionIcon] = useState(
     <PlayButton className={`${classes.playButton} ${classes.actionButton}`} />
@@ -26,7 +32,7 @@ const TaskCard = ({ task }) => {
     if (task.status === "InProgress") {
       setActionIcon(<PauseButton className={`${classes.pauseButton} ${classes.actionButton}`} />);
     }
-  }, []);
+  }, [task, classes]);
 
   return (
     <Grid className={classes.card} item>
@@ -43,7 +49,7 @@ const TaskCard = ({ task }) => {
           >
             <Grid container alignItems="center" item xs>
               <Grid className={classes.taskName} item>
-                <Typography color="primary" className={classes.taskNameText} noWrap>
+                <Typography className={classes.taskNameText} noWrap onClick={handleOpenTask}>
                   {task.name}
                 </Typography>
               </Grid>
@@ -85,4 +91,8 @@ TaskCard.propTypes = {
   task: PropTypes.object,
 };
 
-export default TaskCard;
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ changeModalVisibility }, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(TaskCard);
