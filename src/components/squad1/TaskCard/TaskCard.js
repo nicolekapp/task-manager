@@ -14,7 +14,7 @@ import styles from "./styles";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changeModalVisibility } from "../../../../ducks/modalReducer";
+import { changeModalVisibility } from "../../../ducks/modalReducer";
 
 const TaskCard = ({ actions, task }) => {
   const classes = styles();
