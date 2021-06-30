@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import Grid from "@material-ui/core/Grid";
 
-import CardsContainer from "./CardsContainer";
+import CardsContainer from "../CardsContainer";
+import Modal from "../../common/Modal";
 
 import styles from "./styles";
 
@@ -45,6 +46,7 @@ const Squad1App = () => {
 
   return (
     <div className={classes.root}>
+      <Modal />
       <Grid container direction="row" justify="center" spacing={8}>
         <Grid container item direction="column" spacing={1} xs>
           {inProgressTasks.length !== 0 && (

@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 
-//import ducksReducer from "../duckReducerModel";
+import modalReducer from "../modalReducer";
 
 const rootReducer = () =>
   combineReducers({
-    //ducksReducer,
+    modalReducer,
   });
 
 export default rootReducer;
