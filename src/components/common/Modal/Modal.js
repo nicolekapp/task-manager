@@ -22,21 +22,23 @@ const newTask = {
 
 const Modal = ({ actions, open, task }) => {
   const [selectedTask, setSelectedTask] = useState(newTask);
+  const [creationMode, setCreationMode] = useState(true);
 
   const handleClose = useCallback(() => actions.changeModalVisibility(), [actions]);
 
   useEffect(() => {
     let t = task;
     if (task === null) {
-      t = newTask;
+      t = creationMode;
     }
+    setCreationMode(false);
     setSelectedTask(t);
   }, [task]);
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="sm">
       <DialogTitle>
-        {selectedTask.name} - {selectedTask.status}
+        {creationMode ? `${selectedTask.name} - ${selectedTask.status}` : "Crear tarea"}
       </DialogTitle>
       <DialogContent>
         <Squad1ModalContent />
