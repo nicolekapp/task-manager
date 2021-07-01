@@ -9,6 +9,7 @@ import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changeModalVisibility } from "../../../ducks/modalReducer";
+
 import ActionsButtonGroup from "./ActionsButtonGroup";
 
 import styles from "./styles";

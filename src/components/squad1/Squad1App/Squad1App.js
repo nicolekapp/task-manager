@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 
 import CardsContainer from "../CardsContainer";
+
 import Modal from "../../common/Modal";
 
 import styles from "./styles";
