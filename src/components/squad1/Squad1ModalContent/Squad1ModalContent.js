@@ -10,12 +10,13 @@ const Squad1ModalContent = () => {
     },
     "Controlled"
   );
-  const handleChange = (description, title, duration) => (event) => {
+  const handleChange = (description, title, durationDays, durationHours) => (event) => {
     setValues({
       ...values,
       [description]: event.target.value,
       [title]: event.target.value,
-      [duration]: event.target.value,
+      [durationDays]: event.target.value,
+      [durationHours]: event.target.value,
     });
   };
   const error = values.description === "";
@@ -54,19 +55,41 @@ const Squad1ModalContent = () => {
           error={error}
         />
 
+         <TextField
+         id="standard-helperText"
+         label="Tiempo de duracion : Dias"
+         defaultValue="Default Value"
+         className={classes.textField}
+         value={values.durationDays}
+         onChange={handleChange("durationDays")}
+         helperText={
+           error3
+             ? "The task needs to have an estimated completion time"
+             : "Perfect!"
+         }
+         error={error3}
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
         <TextField
-          id="standard-helperText"
-          label="Tiempo de duracion"
-          defaultValue="Default Value"
-          className={classes.textField}
-          value={values.duration}
-          onChange={handleChange("duration")}
-          helperText={
-            error3
-              ? "The task needs to have an estimated completion time"
-              : "Perfect!"
-          }
-          error={error3}
+         id="standard-helperText"
+         label="Tiempo de duracion : Horas"
+         defaultValue="Default Value"
+         className={classes.textField}
+         value={values.durationHours}
+         onChange={handleChange("durationHours")}
+         helperText={
+           error3
+             ? "The task needs to have an estimated completion time"
+             : "Perfect!"
+         }
+         error={error3}
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
       </div>
     </form>
