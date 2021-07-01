@@ -11,12 +11,18 @@ import { changeModalVisibility } from "../../../ducks/modalReducer";
 
 import Squad1ModalContent from "../../squad1/Squad1ModalContent";
 import Squad2ModalContent from "../../squad2/Squad2ModalContent";
+import TaskButtonsBar from "../TaskButtonsBar";
 
 const Modal = ({ actions, open, task }) => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [creationMode, setCreationMode] = useState(true);
+  const [modificationMode, setModificationMode] = useState(true);
 
   const handleClose = useCallback(() => actions.changeModalVisibility(), [actions]);
+
+  const handleModificationMode = useCallback(() => {
+    setModificationMode(!modificationMode);
+  }, [modificationMode]);
 
   useEffect(() => {
     let t = task;
@@ -33,6 +39,7 @@ const Modal = ({ actions, open, task }) => {
     <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="md">
       <DialogTitle>
         {!creationMode ? `${selectedTask.name} - ${selectedTask.state}` : "Crear tarea"}
+        <TaskButtonsBar setModificationMode={handleModificationMode} />
       </DialogTitle>
       <DialogContent>
         <Squad1ModalContent creationMode={creationMode} task={task} />
