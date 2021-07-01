@@ -1,38 +1,22 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Chip from "@material-ui/core/Chip";
-import IconButton from "@material-ui/core/IconButton";
 import { Typography } from "@material-ui/core";
-
-import PlayButton from "@material-ui/icons/PlayCircleOutline";
-import PauseButton from "@material-ui/icons/PauseCircleOutline";
-
-import styles from "./styles";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changeModalVisibility } from "../../../ducks/modalReducer";
+import ActionsButtonGroup from "./ActionsButtonGroup";
+
+import styles from "./styles";
 
 const TaskCard = ({ actions, task }) => {
   const classes = styles();
 
-  const handlePlayAction = useCallback(() => console.log("PLAY ACTION"), []);
-  const handlePauseAction = useCallback(() => console.log("PAUSE ACTION"), []);
-
   const handleOpenTask = useCallback(() => actions.changeModalVisibility(task), [actions, task]);
-
-  const [actionIcon, setActionIcon] = useState(
-    <PlayButton className={`${classes.playButton} ${classes.actionButton}`} />
-  );
-
-  useEffect(() => {
-    if (task.status === "InProgress") {
-      setActionIcon(<PauseButton className={`${classes.pauseButton} ${classes.actionButton}`} />);
-    }
-  }, [task, classes]);
 
   return (
     <Grid className={classes.card} item>
@@ -61,23 +45,17 @@ const TaskCard = ({ actions, task }) => {
               <Typography noWrap>{task.description}</Typography>
             </Grid>
           </Grid>
-
           {task.status !== "Completed" && (
             <Grid
               container
               direction="column"
               justify="center"
-              alignItems="center"
+              alignItems="flex-end"
               className={classes.buttonContainer}
               item
             >
               <Grid item>
-                <IconButton
-                  color="inherit"
-                  onClick={task.status === "InProgress" ? handlePauseAction : handlePlayAction}
-                >
-                  {actionIcon}
-                </IconButton>
+                <ActionsButtonGroup status={task.status} />
               </Grid>
             </Grid>
           )}
