@@ -9,7 +9,7 @@ import DoneIcon from "@material-ui/icons/Done";
 
 import styles from "./styles";
 
-const ActionsButtonGroup = ({ status }) => {
+const ActionsButtonGroup = ({ state }) => {
   const classes = styles();
 
   const handlePlayAction = useCallback(() => console.log("PLAY ACTION"), []);
@@ -20,10 +20,10 @@ const ActionsButtonGroup = ({ status }) => {
   );
 
   useEffect(() => {
-    if (status === "InProgress") {
+    if (state === "InProgress") {
       setActionIcon(<PauseButton className={`${classes.pauseButton} ${classes.actionButton}`} />);
     }
-  }, [status, classes]);
+  }, [state, classes]);
 
   return (
     <ButtonGroup
@@ -33,23 +33,23 @@ const ActionsButtonGroup = ({ status }) => {
       size="small"
       disableElevation
     >
-      {status !== "Created" && (
+      {state !== "Created" && (
         <Button startIcon={<DoneIcon color="primary" className={classes.actionButton} />}>
           Finalizar
         </Button>
       )}
       <Button
         startIcon={actionIcon}
-        onClick={status === "InProgress" ? handlePauseAction : handlePlayAction}
+        onClick={state === "InProgress" ? handlePauseAction : handlePlayAction}
       >
-        {status === "InProgress" ? "Pausar" : status === "Paused" ? "Retomar" : "Iniciar"}
+        {state === "InProgress" ? "Pausar" : state === "Paused" ? "Retomar" : "Iniciar"}
       </Button>
     </ButtonGroup>
   );
 };
 
 ActionsButtonGroup.propTypes = {
-  status: PropTypes.bool,
+  state: PropTypes.string,
 };
 
 export default ActionsButtonGroup;

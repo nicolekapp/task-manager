@@ -1,20 +1,43 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
-const Squad1ModalContent = () => {
-  const [values, setValues] = useState(
-    {
-      name: "",
-    },
-    "Controlled"
-  );
-
+const Squad1ModalContent = ({ creationMode, task }) => {
+  const [name, setName] = React.useState("");
+  const [description, setDescription] = React.useState("");
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
+
+  useEffect(() => {
+    let name = "";
+    let description = "";
+    let sDate = null;
+    let eDate = null;
+
+    if (task) {
+      name = task.name;
+      description = task.description;
+      sDate = task.starting_date;
+      eDate = null; //fix this
+    }
+
+    setName(name);
+    setDescription(description);
+    setStartDate(sDate);
+    setEndDate(eDate);
+  }, [creationMode]);
+
+  const handleNameChange = useCallback((input) => {
+    setName(input);
+  }, []);
+
+  const handleDescriptionChange = useCallback((input) => {
+    setDescription(input);
+  }, []);
 
   const handleStartDateChange = useCallback((date) => {
     setStartDate(date);
@@ -24,30 +47,18 @@ const Squad1ModalContent = () => {
     setEndDate(date);
   }, []);
 
-  const handleChange = (description, title, durationDays, durationHours) => (event) => {
-    setValues({
-      ...values,
-      [description]: event.target.value,
-      [title]: event.target.value,
-      [durationDays]: event.target.value,
-      [durationHours]: event.target.value,
-    });
-  };
-  const error = values.description === "";
-  const error2 = values.title === "";
-
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
         <TextField
           aria-required
           label="Nombre de la tarea"
-          value={values.title}
-          onChange={handleChange("title")}
+          value={name}
+          onChange={handleNameChange}
           fullWidth
           variant="outlined"
-          helperText={error2 && "The task needs to have a title"}
-          error={error2}
+          helperText={name === "" && "Se requiere un nombre de tarea"}
+          error={name === ""}
         />
       </Grid>
 
@@ -56,12 +67,10 @@ const Squad1ModalContent = () => {
           label="Description"
           multiline
           rowsMax={10}
-          value={values.description}
-          onChange={handleChange("description")}
+          value={description}
+          onChange={handleDescriptionChange}
           fullWidth
           variant="outlined"
-          helperText={error && "The task needs to have a descirption"}
-          error={error}
         />
       </Grid>
       <Grid container item spacing={4} justify="center">
@@ -75,6 +84,8 @@ const Squad1ModalContent = () => {
               label="Fecha de inicio"
               value={startDate}
               onChange={handleStartDateChange}
+              disablePast={creationMode}
+              inputVariant="outlined"
             />
           </MuiPickersUtilsProvider>
         </Grid>
@@ -89,12 +100,21 @@ const Squad1ModalContent = () => {
               label="Fecha de finalización"
               value={endDate}
               onChange={handleEndDateChange}
+              disabled={startDate === null}
+              disablePast
+              inputVariant="outlined"
+              minDate={startDate}
             />
           </MuiPickersUtilsProvider>
         </Grid>
       </Grid>
     </Grid>
   );
+};
+
+Squad1ModalContent.propTypes = {
+  creationMode: PropTypes.bool,
+  task: PropTypes.object,
 };
 
 export default Squad1ModalContent;
