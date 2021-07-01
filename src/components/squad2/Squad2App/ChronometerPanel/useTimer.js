@@ -36,4 +36,4 @@ const useTimer = (initialState = 0) => {
     return { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset }
 }
 
-export default useTimer
+export default useTimer;

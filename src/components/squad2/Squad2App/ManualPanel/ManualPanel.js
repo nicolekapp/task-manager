@@ -8,7 +8,20 @@ import Button from "@material-ui/core/Button";
 
 const ManualPanel = ({ manual }) => {
     const [manualTime, setManualTime] = useState("");
-    const addManual = () => console.log(manualTime, "manual time");
+
+    const postTime = () => {
+        const requestOptions = {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            body: JSON.stringify({ id: 52, nombre: 'nicole' })
+        };
+        fetch('https://squad2-tiempos.herokuapp.com/Manual/prueba', requestOptions)
+            .then(response => response.json())
+            .then(json => console.log(json, 'RESPONSEEEE'));
+    }
+
+    const addManual = () => postTime();
+
     return (
         <div>
             {manual &&
