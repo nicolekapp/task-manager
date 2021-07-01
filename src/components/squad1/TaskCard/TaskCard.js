@@ -39,14 +39,14 @@ const TaskCard = ({ actions, task }) => {
                 </Typography>
               </Grid>
               <Grid>
-                <Chip label={task.status} />
+                <Chip label={task.state} />
               </Grid>
             </Grid>
             <Grid item xs>
               <Typography noWrap>{task.description}</Typography>
             </Grid>
           </Grid>
-          {task.status !== "Completed" && (
+          {task.state !== "Completed" && (
             <Grid
               container
               direction="column"
@@ -56,7 +56,7 @@ const TaskCard = ({ actions, task }) => {
               item
             >
               <Grid item>
-                <ActionsButtonGroup status={task.status} />
+                <ActionsButtonGroup state={task.state} />
               </Grid>
             </Grid>
           )}

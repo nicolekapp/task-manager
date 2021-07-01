@@ -19,42 +19,58 @@ const Squad1App = () => {
   const [completedTasks, setCompletedTasks] = useState([]);
 
   useEffect(() => {
-    const created = [];
-    const inProgress = [];
-    const paused = [];
-    const completed = [];
-    mockedTasks.forEach((task) => {
-      switch (task.status) {
-        case "Created":
-          created.push(task);
-          break;
-        case "InProgress":
-          inProgress.push(task);
-          break;
-        case "Paused":
-          paused.push(task);
-          break;
-        default:
-          completed.push(task);
-      }
+    fetch("http://timetra.herokuapp.com/task/all")
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        const created = [];
+        const inProgress = [];
+        const paused = [];
+        const completed = [];
 
-      setCreatedTasks(created);
-      setInProgressTasks(inProgress);
-      setPausedTasks(paused);
-      setCompletedTasks(completed);
-    });
+        response.forEach((task) => {
+          switch (task.state) {
+            case "Created":
+              created.push(task);
+              console.log("created");
+              break;
+            case "InProgress":
+              inProgress.push(task);
+
+              console.log("inp");
+              break;
+            case "Paused":
+              console.log("pushed");
+              paused.push(task);
+              break;
+            default:
+              completed.push(task);
+          }
+        });
+
+        setCreatedTasks(created);
+        setInProgressTasks(inProgress);
+        setPausedTasks(paused);
+        setCompletedTasks(completed);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
     <div className={classes.root}>
       <Modal />
       <Grid container direction="row" justify="center" spacing={8}>
-        <Grid container item direction="column" spacing={1} xs>
-          {inProgressTasks.length !== 0 && (
-            <CardsContainer title="En Progreso" tasks={inProgressTasks} />
-          )}
-          {pausedTasks.length !== 0 && <CardsContainer title="Pausadas" tasks={pausedTasks} />}
-        </Grid>
+        {inProgressTasks.length !== 0 && pausedTasks.length !== 0 && (
+          <Grid container item direction="column" spacing={1} xs>
+            {inProgressTasks.length !== 0 && (
+              <CardsContainer title="En Progreso" tasks={inProgressTasks} />
+            )}
+            {pausedTasks.length !== 0 && <CardsContainer title="Pausadas" tasks={pausedTasks} />}
+          </Grid>
+        )}
 
         <Grid container item direction="column" spacing={1} xs>
           {createdTasks.length !== 0 && <CardsContainer title="Backlog" tasks={createdTasks} />}

@@ -12,36 +12,30 @@ import { changeModalVisibility } from "../../../ducks/modalReducer";
 import Squad1ModalContent from "../../squad1/Squad1ModalContent";
 import Squad2ModalContent from "../../squad2/Squad2ModalContent";
 
-const newTask = {
-  name: "",
-  status: "",
-  description: "",
-  starting_date: null,
-  estimated_time: null,
-};
-
 const Modal = ({ actions, open, task }) => {
-  const [selectedTask, setSelectedTask] = useState(newTask);
+  const [selectedTask, setSelectedTask] = useState(null);
   const [creationMode, setCreationMode] = useState(true);
 
   const handleClose = useCallback(() => actions.changeModalVisibility(), [actions]);
 
   useEffect(() => {
     let t = task;
-    if (task === null) {
-      t = creationMode;
-    }
     setCreationMode(false);
+    if (task === null) {
+      t = null;
+      setCreationMode(true);
+    }
+
     setSelectedTask(t);
   }, [task]);
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="sm">
+    <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="md">
       <DialogTitle>
-        {creationMode ? `${selectedTask.name} - ${selectedTask.status}` : "Crear tarea"}
+        {!creationMode ? `${selectedTask.name} - ${selectedTask.state}` : "Crear tarea"}
       </DialogTitle>
       <DialogContent>
-        <Squad1ModalContent />
+        <Squad1ModalContent creationMode={creationMode} task={task} />
       </DialogContent>
       <DialogContent>
         <Squad2ModalContent />
