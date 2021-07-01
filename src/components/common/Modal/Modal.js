@@ -36,7 +36,7 @@ const Modal = ({ actions, open, task }) => {
   }, [task]);
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="md">
+    <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="xl">
       <DialogTitle>
         {!creationMode ? `${selectedTask.name} - ${selectedTask.state}` : "Crear tarea"}
         <TaskButtonsBar setModificationMode={handleModificationMode} />
@@ -44,9 +44,11 @@ const Modal = ({ actions, open, task }) => {
       <DialogContent>
         <Squad1ModalContent creationMode={creationMode} task={task} />
       </DialogContent>
-      <DialogContent>
-        <Squad2ModalContent />
-      </DialogContent>
+      {!creationMode && (
+        <DialogContent>
+          <Squad2ModalContent />
+        </DialogContent>
+      )}
     </Dialog>
   );
 };

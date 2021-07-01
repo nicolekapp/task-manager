@@ -8,9 +8,11 @@ import Modal from "../../common/Modal";
 
 import styles from "./styles";
 
-import mockedTasks from "../mockedTasks";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { getTasks } from "../../../ducks/tasksReducer";
 
-const Squad1App = () => {
+const Squad1App = ({ actions, tasks }) => {
   const classes = styles();
 
   const [createdTasks, setCreatedTasks] = useState([]);
@@ -19,45 +21,39 @@ const Squad1App = () => {
   const [completedTasks, setCompletedTasks] = useState([]);
 
   useEffect(() => {
-    fetch("http://timetra.herokuapp.com/task/all")
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        const created = [];
-        const inProgress = [];
-        const paused = [];
-        const completed = [];
-
-        response.forEach((task) => {
-          switch (task.state) {
-            case "Created":
-              created.push(task);
-              console.log("created");
-              break;
-            case "InProgress":
-              inProgress.push(task);
-
-              console.log("inp");
-              break;
-            case "Paused":
-              console.log("pushed");
-              paused.push(task);
-              break;
-            default:
-              completed.push(task);
-          }
-        });
-
-        setCreatedTasks(created);
-        setInProgressTasks(inProgress);
-        setPausedTasks(paused);
-        setCompletedTasks(completed);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    actions.getTasks();
   }, []);
+
+  useEffect(() => {
+    const created = [];
+    const inProgress = [];
+    const paused = [];
+    const completed = [];
+
+    tasks.forEach((task) => {
+      switch (task.state) {
+        case "Created":
+          created.push(task);
+          break;
+        case "InProgress":
+          inProgress.push(task);
+
+          console.log("inp");
+          break;
+        case "Paused":
+          console.log("pushed");
+          paused.push(task);
+          break;
+        default:
+          completed.push(task);
+      }
+    });
+
+    setCreatedTasks(created);
+    setInProgressTasks(inProgress);
+    setPausedTasks(paused);
+    setCompletedTasks(completed);
+  }, [tasks]);
 
   return (
     <div className={classes.root}>
@@ -83,4 +79,12 @@ const Squad1App = () => {
   );
 };
 
-export default Squad1App;
+const mapStateToProps = (state) => ({
+  tasks: state.tasksReducer.tasks,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ getTasks }, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Squad1App);

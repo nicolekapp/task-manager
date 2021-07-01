@@ -6,11 +6,22 @@ import Grid from "@material-ui/core/Grid";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
-const Squad1ModalContent = ({ creationMode, task }) => {
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [startDate, setStartDate] = React.useState(new Date());
-  const [endDate, setEndDate] = React.useState(new Date());
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { changeModalVisibility } from "../../../ducks/modalReducer";
+import { getTasks } from "../../../ducks/tasksReducer";
+
+import Button from "@material-ui/core/Button";
+import SaveIcon from "@material-ui/icons/Save";
+import CancelIcon from "@material-ui/icons/Clear";
+
+const Squad1ModalContent = ({ actions, creationMode, task }) => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+
+  const [nameEntered, setNameEntered] = useState(false);
 
   useEffect(() => {
     let name = "";
@@ -22,21 +33,22 @@ const Squad1ModalContent = ({ creationMode, task }) => {
       name = task.name;
       description = task.description;
       sDate = task.starting_date;
-      eDate = null; //fix this
+      eDate = task.starting_date + task.estimated_time;
     }
 
     setName(name);
     setDescription(description);
     setStartDate(sDate);
     setEndDate(eDate);
-  }, [creationMode]);
+  }, [task, creationMode]);
 
-  const handleNameChange = useCallback((input) => {
-    setName(input);
+  const handleNameChange = useCallback((event) => {
+    setName(event.target.value);
+    setNameEntered(true);
   }, []);
 
-  const handleDescriptionChange = useCallback((input) => {
-    setDescription(input);
+  const handleDescriptionChange = useCallback((event) => {
+    setDescription(event.target.value);
   }, []);
 
   const handleStartDateChange = useCallback((date) => {
@@ -47,18 +59,44 @@ const Squad1ModalContent = ({ creationMode, task }) => {
     setEndDate(date);
   }, []);
 
+  const handleClose = useCallback(() => {
+    actions.changeModalVisibility();
+  }, [actions]);
+
+  const handleCreateTask = useCallback(async () => {
+    await fetch("http://timetra.herokuapp.com/task", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        description,
+        estimated_time: endDate - startDate,
+        starting_date: startDate.getTime(),
+      }),
+    })
+      .then(() => {
+        actions.getTasks();
+        handleClose();
+      })
+      .then((err) => {
+        console.log(err);
+      });
+  }, [name, description, endDate, startDate, handleClose]);
+
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
         <TextField
-          aria-required
           label="Nombre de la tarea"
           value={name}
           onChange={handleNameChange}
           fullWidth
           variant="outlined"
           helperText={name === "" && "Se requiere un nombre de tarea"}
-          error={name === ""}
+          error={nameEntered && name === ""}
         />
       </Grid>
 
@@ -73,7 +111,7 @@ const Squad1ModalContent = ({ creationMode, task }) => {
           variant="outlined"
         />
       </Grid>
-      <Grid container item spacing={4} justify="center">
+      <Grid container item spacing={4}>
         <Grid item>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
@@ -86,6 +124,7 @@ const Squad1ModalContent = ({ creationMode, task }) => {
               onChange={handleStartDateChange}
               disablePast={creationMode}
               inputVariant="outlined"
+              autoOk
             />
           </MuiPickersUtilsProvider>
         </Grid>
@@ -104,9 +143,38 @@ const Squad1ModalContent = ({ creationMode, task }) => {
               disablePast
               inputVariant="outlined"
               minDate={startDate}
+              autoOk
             />
           </MuiPickersUtilsProvider>
         </Grid>
+
+        {creationMode && (
+          <Grid container item spacing={3}>
+            <Grid item>
+              <Button
+                variant="contained"
+                startIcon={<CancelIcon />}
+                disableElevation
+                onClick={handleClose}
+              >
+                Cancelar
+              </Button>
+            </Grid>
+            <Grid item xs></Grid>
+            <Grid item>
+              <Button
+                color="primary"
+                variant="contained"
+                startIcon={<SaveIcon />}
+                disableElevation
+                disabled={name === "" || startDate === null}
+                onClick={handleCreateTask}
+              >
+                Guardar
+              </Button>
+            </Grid>
+          </Grid>
+        )}
       </Grid>
     </Grid>
   );
@@ -117,4 +185,8 @@ Squad1ModalContent.propTypes = {
   task: PropTypes.object,
 };
 
-export default Squad1ModalContent;
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ changeModalVisibility, getTasks }, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(Squad1ModalContent);
