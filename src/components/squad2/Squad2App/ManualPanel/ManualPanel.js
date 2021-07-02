@@ -7,6 +7,8 @@ import * as utils from '../utils';
 //import styles from "./styles";
 
 const ManualPanel = ({ manual, task }) => {
+    //NICKY HELP A(1/3) -> linea 30
+    // const [manualTime, setManualTime, resetTime] = useState("");
     const [manualTime, setManualTime] = useState("");
     const {convertToHours,convertToMinutes,convertToSeconds} = utils;
 
@@ -25,7 +27,10 @@ const ManualPanel = ({ manual, task }) => {
               })
         };
 
-        fetch('https://is3-squad2-tiempos.herokuapp.com/Manual/register', requestOptions);
+        fetch('https://is3-squad2-tiempos.herokuapp.com/Manual/register', requestOptions)
+        //NICKY HELP A(2/3) -> archivo TimePicker
+        // .then(()=>resetTime())
+        ;
     }
 
     const addManual = () => postTime();
@@ -34,7 +39,7 @@ const ManualPanel = ({ manual, task }) => {
         <div>
             {manual &&
                 <Fragment>
-                    <TimePicker setManualTime={setManualTime()} />
+                    <TimePicker setManualTime={setManualTime} />
                     <Button manualtime={manualTime} onClick={() => addManual(manualTime)}>
                         <div>
                             Agregar
