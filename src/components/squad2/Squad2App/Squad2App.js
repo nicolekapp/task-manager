@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import ManualPanel from "./ManualPanel/ManualPanel";
@@ -37,7 +37,6 @@ const Squad2App = ({task}) => {
       </ButtonGroup>
       
       <ButtonGroup variant="text" color="primary" aria-label="text primary button group" style={{position:'absolute',right:20}}>
-        <TotalTime task={task}/>
         <Button onClick={handleHistoryOnClick}>Historial</Button>
       </ButtonGroup>
       {

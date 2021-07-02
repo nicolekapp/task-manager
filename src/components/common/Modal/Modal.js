@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState} from "react";
 import PropTypes from "prop-types";
 
 import Dialog from "@material-ui/core/Dialog";
@@ -18,8 +18,9 @@ import Squad1ModalContent from "../../squad1/Squad1ModalContent";
 import Squad2ModalContent from "../../squad2/Squad2ModalContent";
 import TaskButtonsBar from "../TaskButtonsBar";
 import { Grid } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
-const Modal = ({ actions, open, task, creationMode }) => {
+const Modal = ({ actions, open, task, totalTime }) => {
   const [selectedTask, setSelectedTask] = useState(null);
 
   const handleClose = useCallback(() => {
@@ -41,6 +42,7 @@ const Modal = ({ actions, open, task, creationMode }) => {
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="xl">
+      
       <DialogTitle>
         <Grid container direction="row" alignItems="center">
           <Grid item>
@@ -61,12 +63,14 @@ const Modal = ({ actions, open, task, creationMode }) => {
           <TaskButtonsBar />
         </Grid>
       </DialogTitle>
-      <DialogContent>
-        <Squad1ModalContent />
+      <DialogContent>        
+        <Squad1ModalContent/>
       </DialogContent>
       {!creationMode && (
         <DialogContent>
-          <Squad2ModalContent task={task} />
+          <div><Typography>Tiempo total dedicado =   {totalTime}</Typography></div>
+            <Squad2ModalContent task={task}/>
+
         </DialogContent>
       )}
     </Dialog>
@@ -80,7 +84,9 @@ Modal.propTypes = {
 const mapStateToProps = (state) => ({
   open: state.modalReducer.open,
   task: state.modalReducer.task,
+  totalTime: state.modalReducer.totalTime,
   creationMode: state.modalReducer.creationMode,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
