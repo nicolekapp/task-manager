@@ -11,39 +11,53 @@ import { changeModalVisibility } from "../../../ducks/modalReducer";
 
 import Squad1ModalContent from "../../squad1/Squad1ModalContent";
 import Squad2ModalContent from "../../squad2/Squad2ModalContent";
-
-const newTask = {
-  name: "",
-  status: "",
-  description: "",
-  starting_date: null,
-  estimated_time: null,
-};
+import TaskButtonsBar from "../TaskButtonsBar";
+import { Grid } from "@material-ui/core";
 
 const Modal = ({ actions, open, task }) => {
-  const [selectedTask, setSelectedTask] = useState(newTask);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [creationMode, setCreationMode] = useState(true);
+  const [modificationMode, setModificationMode] = useState(true);
 
   const handleClose = useCallback(() => actions.changeModalVisibility(), [actions]);
 
+  const handleModificationMode = useCallback(() => {
+    setModificationMode(!modificationMode);
+  }, [modificationMode]);
+
   useEffect(() => {
     let t = task;
+    setCreationMode(false);
     if (task === null) {
-      t = newTask;
+      t = null;
+      setCreationMode(true);
     }
+
     setSelectedTask(t);
   }, [task]);
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="sm">
+    <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="xl">
       <DialogTitle>
-        {selectedTask.name} - {selectedTask.status}
+        <Grid container direction="row" alignItems="center">
+          <Grid item>
+            {!creationMode ? `${selectedTask.name} - ${selectedTask.state}` : "Crear tarea"}
+          </Grid>
+          <Grid item xs></Grid>
+          <TaskButtonsBar
+            creationMode={creationMode}
+            setModificationMode={handleModificationMode}
+          />
+        </Grid>
       </DialogTitle>
       <DialogContent>
-        <Squad1ModalContent />
+        <Squad1ModalContent creationMode={creationMode} task={task} />
       </DialogContent>
-      <DialogContent>
-        <Squad2ModalContent />
-      </DialogContent>
+      {!creationMode && (
+        <DialogContent>
+          <Squad2ModalContent />
+        </DialogContent>
+      )}
     </Dialog>
   );
 };
