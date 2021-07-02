@@ -1,6 +1,5 @@
-import React , { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-
 
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -10,49 +9,37 @@ import EditIcon from "@material-ui/icons/Edit";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-const TaskButtonsBar = ({ setModificationMode,  actions, open, task}) => {
-  
-  
+import { getTasks } from "../../../ducks/tasksReducer";
+import { changeModalVisibility } from "../../../ducks/modalReducer";
+import { Grid } from "@material-ui/core";
+
+const TaskButtonsBar = ({ creationMode, setModificationMode, actions, open, task }) => {
   const handleDeleteMode = useCallback(() => {
     fetch("http://timetra.herokuapp.com/task/" + task.id, {
-    method: "DELETE",
-  })
-    .then((res) => res.text())
-    .then((res) => console.log(res));
+      method: "DELETE",
+    })
+      .then(() => {
+        actions.getTasks();
+        actions.changeModalVisibility();
+      })
+      .catch((err) => console.log(err));
   });
-  
 
   return (
-    <ButtonGroup
-      style={{
-        position: "absolute",
-        right: 5,
-      }}
-      variant="text"
-      aria-label="outlined primary button group"
-    >
-      <Button onClick={() => setModificationMode()}>
-        <IconButton
-          style={{
-            position: "absolute",
-          }}
-          color="inherit"
-        >
-          <EditIcon />
-        </IconButton>
-      </Button>
-
-      <Button onClick={() => handleDeleteMode()}>
-        <IconButton
-          style={{
-            position: "absolute",
-          }}
-          color="inherit"
-        >
-          <DeleteIcon />
-        </IconButton>
-      </Button>
-    </ButtonGroup>
+    !creationMode && (
+      <>
+        <Grid item>
+          <IconButton color="inherit" onClick={() => setModificationMode()}>
+            <EditIcon />
+          </IconButton>
+        </Grid>
+        <Grid item>
+          <IconButton color="inherit" onClick={() => handleDeleteMode()}>
+            <DeleteIcon />
+          </IconButton>
+        </Grid>
+      </>
+    )
   );
 };
 
@@ -65,6 +52,8 @@ const mapStateToProps = (state) => ({
   task: state.modalReducer.task,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ changeModalVisibility, getTasks }, dispatch),
+});
 
-export default connect(mapStateToProps)(TaskButtonsBar);
-
+export default connect(mapStateToProps, mapDispatchToProps)(TaskButtonsBar);
