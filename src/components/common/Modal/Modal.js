@@ -12,6 +12,7 @@ import { changeModalVisibility } from "../../../ducks/modalReducer";
 import Squad1ModalContent from "../../squad1/Squad1ModalContent";
 import Squad2ModalContent from "../../squad2/Squad2ModalContent";
 import TaskButtonsBar from "../TaskButtonsBar";
+import { Grid } from "@material-ui/core";
 
 const Modal = ({ actions, open, task }) => {
   const [selectedTask, setSelectedTask] = useState(null);
@@ -36,17 +37,27 @@ const Modal = ({ actions, open, task }) => {
   }, [task]);
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="md">
+    <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="xl">
       <DialogTitle>
-        {!creationMode ? `${selectedTask.name} - ${selectedTask.state}` : "Crear tarea"}
-        <TaskButtonsBar setModificationMode={handleModificationMode} />
+        <Grid container direction="row" alignItems="center">
+          <Grid item>
+            {!creationMode ? `${selectedTask.name} - ${selectedTask.state}` : "Crear tarea"}
+          </Grid>
+          <Grid item xs></Grid>
+          <TaskButtonsBar
+            creationMode={creationMode}
+            setModificationMode={handleModificationMode}
+          />
+        </Grid>
       </DialogTitle>
       <DialogContent>
         <Squad1ModalContent creationMode={creationMode} task={task} />
       </DialogContent>
-      <DialogContent>
-        <Squad2ModalContent />
-      </DialogContent>
+      {!creationMode && (
+        <DialogContent>
+          <Squad2ModalContent />
+        </DialogContent>
+      )}
     </Dialog>
   );
 };
