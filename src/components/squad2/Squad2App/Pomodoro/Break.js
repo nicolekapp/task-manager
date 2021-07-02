@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 const Break = (props) => {
     const { increment, decrement, length } = props;
     return (
-        <div  style={{float:"left", borderStyle:'dashed'}}>
+        <div  style={{float:"left", borderStyle:'dashed', borderTopStyle:'none', width:200}}>
             <p style={{paddingLeft:30}}>Descanso</p>
             <Button onClick={decrement}>
                 -

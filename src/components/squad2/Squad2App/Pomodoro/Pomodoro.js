@@ -123,37 +123,43 @@ const Pomodoro = ({task}) => {
 
 
   return (
-    <Fragment>
-      <div>Ciclos {cycles}</div>
-      <PomodoroTimer time={timeLeft} mode={mode} />
-      <div className={buttonContainer}>
-        <Button className={button} onClick={toggleIsActive}>
-          {isActive ? "Pausa" : "Comenzar"}
-        </Button>
-        <Button className={button} onClick={reset}>
-          Parar
-        </Button>
-      </div>
-      <div /*className="options"*/ style={{display:'inline'}}>
-        <ul style={{display:'inline'}}>
-          <li style={{display:'inline'}}>
-            <Session
-            length={sessionLength}
-            decrement={decrementSessionLength}
-            increment={incrementSessionLength}
-            />
-          </li>
-          <li style={{display:'inline'}}>
-            <Break
-            length={breakLength}
-            decrement={decrementBreakLength}
-            increment={incrementBreakLength}
-            />
-          </li>
-        </ul>
-        
+    <Fragment >
+      <div /*className="options"*/style={{float:"left",marginTop:10}}>
+
+        <Session
+        length={sessionLength}
+        decrement={decrementSessionLength}
+        increment={incrementSessionLength}
+        />
+
+        <Break
+        length={breakLength}
+        decrement={decrementBreakLength}
+        increment={incrementBreakLength}
+        />
+
+
 
       </div>
+      <div style={{float:"left", marginLeft:50,marginTop:10}}>
+
+        <div>Ciclos {cycles}</div>
+        <PomodoroTimer time={timeLeft} mode={mode} />
+        <div className={buttonContainer}>
+          
+
+         
+          <Button className={button} onClick={toggleIsActive} style={{backgroundColor:'#1976D2', color: 'white', fontWeight: 'bold', width:90}}>
+            {isActive ? "Pausa" : "Comenzar"}
+          </Button>
+          
+          <Button className={button} onClick={reset} style={{position:'relative',left:110,bottom:29, backgroundColor:'#1976D2', color: 'white', fontWeight: 'bold', width:90}}>
+            Parar
+          </Button>
+          
+        </div>
+      </div>
+      
     </Fragment>
   );
 
