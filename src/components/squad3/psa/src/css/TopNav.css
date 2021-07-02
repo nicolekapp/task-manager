@@ -1,0 +1,39 @@
+.container-tn {
+  background-color: #1976d2;
+  padding-left: 5%;
+  width: 100%;
+}
+h1 {
+  color: #ffffff;
+  font-family: "Raleway", sans-serif;
+  font-size: 35px;
+  font-weight: 800;
+}
+.row-tn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.col1-tn {
+  width: 22%;
+}
+.col2-tn {
+  width: 50%;
+}
+.col3-tn {
+  width: 20%;
+  text-align: right;
+}
+.button-tn {
+  color: #ffffff;
+  margin-right: 2%;
+  background-color: #1976d2;
+  border: none;
+  font-family: "Raleway", sans-serif;
+  font-size: 25px;
+  font-weight: 400;
+  text-decoration: none;
+}
+.button-tn:hover {
+  font-weight: 700;
+}
