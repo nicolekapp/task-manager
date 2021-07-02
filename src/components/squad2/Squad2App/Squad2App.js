@@ -1,14 +1,10 @@
 import React, { Fragment, useState } from "react";
-//import PropTypes from "prop-types";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import ManualPanel from "./ManualPanel/ManualPanel";
 import ChronometerPanel from "./ChronometerPanel/ChronometerPanel";
 import HistoryPanel from "./HistoryPanel/HistoryPanel";
 import TotalTime from "./TotalTime/TotalTime";
-
-
-//import { Typography } from "@material-ui/core";
 //import styles from "./styles";
 
 const Squad2App = () => {

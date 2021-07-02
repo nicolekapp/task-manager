@@ -1,0 +1,55 @@
+import React, { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import PlayButton from "@material-ui/icons/PlayArrow";
+import PauseButton from "@material-ui/icons/Pause";
+import DoneIcon from "@material-ui/icons/Done";
+
+import styles from "./styles";
+
+const ActionsButtonGroup = ({ state }) => {
+  const classes = styles();
+
+  const handlePlayAction = useCallback(() => console.log("PLAY ACTION"), []);
+  const handlePauseAction = useCallback(() => console.log("PAUSE ACTION"), []);
+
+  const [actionIcon, setActionIcon] = useState(
+    <PlayButton className={`${classes.playButton} ${classes.actionButton}`} />
+  );
+
+  useEffect(() => {
+    if (state === "InProgress") {
+      setActionIcon(<PauseButton className={`${classes.pauseButton} ${classes.actionButton}`} />);
+    }
+  }, [state, classes]);
+
+  return (
+    <ButtonGroup
+      orientation="vertical"
+      color="default"
+      variant="contained"
+      size="small"
+      disableElevation
+    >
+      {state !== "Created" && (
+        <Button startIcon={<DoneIcon color="primary" className={classes.actionButton} />}>
+          Finalizar
+        </Button>
+      )}
+      <Button
+        startIcon={actionIcon}
+        onClick={state === "InProgress" ? handlePauseAction : handlePlayAction}
+      >
+        {state === "InProgress" ? "Pausar" : state === "Paused" ? "Retomar" : "Iniciar"}
+      </Button>
+    </ButtonGroup>
+  );
+};
+
+ActionsButtonGroup.propTypes = {
+  state: PropTypes.string,
+};
+
+export default ActionsButtonGroup;

@@ -12,28 +12,41 @@ import Squad2App from "../squad2/Squad2App";
 import Squad3App from "../squad3/Squad3App";
 
 import theme from "./theme";
+import CreateTaskButton from "../squad1/CreatTaskButton/taskButton";
+import styles from "./styles";
+import IconButton from "@material-ui/core/IconButton";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-    <AppBar>
-      <Toolbar>
-        <Typography variant="h6">Task Manager</Typography>
-      </Toolbar>
-    </AppBar>
-    <Toolbar />
+const App = () => {
+  const classes = styles();
+  return (
+    <ThemeProvider theme={theme}>
+      <AppBar>
+        <Toolbar>
+          <Typography className={classes.title} variant="h6">
+            Task Manager
+          </Typography>
+          <CreateTaskButton />
+          <IconButton color="inherit">
+            <NotificationsIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Toolbar />
 
-    <Switch>
-      <Route exact path="/">
-        <Squad1App />
-      </Route>
-      <Route exact path="/squad2">
-        <Squad2App />
-      </Route>
-      <Route exact path="/squad3">
-        <Squad3App />
-      </Route>
-    </Switch>
-  </ThemeProvider>
-);
+      <Switch>
+        <Route exact path="/">
+          <Squad1App />
+        </Route>
+        <Route exact path="/squad2">
+          <Squad2App />
+        </Route>
+        <Route exact path="/squad3">
+          <Squad3App />
+        </Route>
+      </Switch>
+    </ThemeProvider>
+  );
+};
 
 export default App;

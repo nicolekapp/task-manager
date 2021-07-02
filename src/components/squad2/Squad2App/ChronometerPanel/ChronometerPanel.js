@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-//import PropTypes from "prop-types";
-//import { Typography } from "@material-ui/core";
-//import styles from "./styles";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Timer from "./Timer";
+import Pomodoro from "../Pomodoro/Pomodoro";
+//import styles from "./styles";
 
 const ChronometerPanel = ({ chronometer }) => {
     const [pomodoroEnabled, setPomodoroEnabled] = useState(false);
-    const [start, setStart] = useState(false);
 
     const handleOnChange = (event) => {
         setPomodoroEnabled(event.target.checked);
@@ -21,6 +19,7 @@ const ChronometerPanel = ({ chronometer }) => {
                     <FormControlLabel
                         control={
                             <Switch
+                                size="small"
                                 checked={pomodoroEnabled}
                                 onChange={handleOnChange}
                                 name="pomodoro"
@@ -30,8 +29,10 @@ const ChronometerPanel = ({ chronometer }) => {
                         label="Utilizar pomodoro"
                     />
                 }
-            </div>
-            <Timer />
+            </div>{
+                pomodoroEnabled ? <Pomodoro /> : <Timer />
+            }
+
         </div>
     );
 

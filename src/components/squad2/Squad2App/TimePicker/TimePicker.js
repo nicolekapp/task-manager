@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
@@ -14,8 +14,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const TimePickers = ({ setManualTime }) => {
+const TimePicker = ({ setManualTime }) => {
     const classes = useStyles();
+
+    const handleOnChange = e => {
+        setManualTime(e.target.value);
+    }
     return (
         <form className={classes.container} noValidate>
             <TextField
@@ -30,9 +34,9 @@ const TimePickers = ({ setManualTime }) => {
                 inputProps={{
                     step: 300 // 5 min
                 }}
-                onChange={e => setManualTime(e.target.value)}
+                onChange={handleOnChange}
             />
         </form>
     );
 }
-export default TimePickers;
+export default TimePicker;
