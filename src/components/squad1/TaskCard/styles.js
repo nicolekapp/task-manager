@@ -15,10 +15,10 @@ const styles = makeStyles((theme) => ({
   },
   infoContainer: {
     marginLeft: "2%",
-    width: "83%",
+    width: "70%",
   },
   buttonContainer: {
-    width: "15%",
+    width: "28%",
   },
   taskName: {
     marginRight: 15,
@@ -32,16 +32,6 @@ const styles = makeStyles((theme) => ({
       color: theme.palette.primary.dark,
       cursor: "pointer",
     },
-  },
-
-  actionButton: {
-    fontSize: 40,
-  },
-  playButton: {
-    color: theme.palette.green.main,
-  },
-  pauseButton: {
-    color: "red",
   },
 }));
 

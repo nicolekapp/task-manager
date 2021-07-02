@@ -1,8 +1,10 @@
-import React, { Fragment, useEffect, useState, useRef } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import PomodoroTimer from './PomodoroTimer';
 import Session from './Session';
 import Break from './Break';
+import styles from "./styles";
+
 import {
   BREAKDURATION,
   SESSIONDURATION,
@@ -13,6 +15,8 @@ import * as utils from '../utils';
 
 const Pomodoro = () => {
   const {convertToHours,convertToMinutes,convertToSeconds} = utils;
+  const classes = styles();
+  const { button, buttonContainer } = classes;
   const [breakLength, setBreakLength] = useState(BREAKDURATION);
   const [sessionLength, setSessionLength] = useState(SESSIONDURATION);
   const [mode, setMode] = useState(SESSION);
@@ -119,15 +123,14 @@ const Pomodoro = () => {
 
 
   return (
-    <Fragment /*className="text-center"*/>
-      <h1>Pomodoro</h1>
-      <p>Cycles: {cycles}</p>
+    <Fragment>
+      <div>Ciclos {cycles}</div>
       <PomodoroTimer time={timeLeft} mode={mode} />
-      <div /*className="buttons" */>
-        <Button onClick={toggleIsActive}>
+      <div className={buttonContainer}>
+        <Button className={button} onClick={toggleIsActive}>
           {isActive ? "Pausa" : "Comenzar"}
         </Button>
-        <Button onClick={reset}>
+        <Button className={button} onClick={reset}>
           Parar
         </Button>
       </div>

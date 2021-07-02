@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from "react";
-//import PropTypes from "prop-types";
 import TimePicker from "../TimePicker/TimePicker";
 import Button from "@material-ui/core/Button";
 import * as utils from '../utils';
