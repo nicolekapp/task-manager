@@ -13,7 +13,8 @@ import {
 } from './constants';
 import * as utils from '../utils';
 
-const Pomodoro = ({task}) => {
+const Pomodoro = (props) => {
+  const { task } = props;
   const {convertToHours,convertToMinutes,convertToSeconds} = utils;
   const classes = styles();
   const { button, buttonContainer } = classes;
@@ -124,7 +125,7 @@ const Pomodoro = ({task}) => {
 
   return (
     <Fragment >
-      <div /*className="options"*/style={{float:"left",marginTop:10}}>
+      <div /*className="options"*/style={{float:"left",marginTop:10, borderStyle:'solid', borderRadius:10, borderWidth:2}}>
 
         <Session
         length={sessionLength}
