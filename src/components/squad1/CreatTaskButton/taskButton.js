@@ -1,28 +1,38 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
+import Button from "@material-ui/core/Button";
 
-import { changeModalVisibility} from "../../../ducks/modalReducer";
+import {
+  changeModalVisibility,
+  changeCreationMode,
+  changeModificationMode,
+} from "../../../ducks/modalReducer";
 
-
-
-const CreatTaskButton = ({actions, visibility}) => {
+const CreatTaskButton = ({ actions }) => {
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={() => actions.changeModalVisibility()}>Crear Tarea</Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          actions.changeCreationMode(true);
+          actions.changeModificationMode(true);
+          actions.changeModalVisibility();
+        }}
+      >
+        Crear Tarea
+      </Button>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-    visibility: state.modalReducer.change_visibility_modal,
-  });
-  
-  const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators({ changeModalVisibility }, dispatch),
-  });
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(CreatTaskButton);
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(
+    { changeModalVisibility, changeCreationMode, changeModificationMode },
+    dispatch
+  ),
+});
+
+export default connect(null, mapDispatchToProps)(CreatTaskButton);
