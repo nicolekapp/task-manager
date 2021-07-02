@@ -8,7 +8,7 @@ import TotalTime from "./TotalTime/TotalTime";
 //import styles from "./styles";
 
 const Squad2App = ({task}) => {
-  const [chronometer, setChronometerClicked] = useState(false);
+  const [chronometer, setChronometerClicked] = useState(true);
   const [manual, setManualClicked] = useState(false);
   const [history, setHistoryClicked] = useState(false);
 
