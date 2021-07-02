@@ -41,9 +41,9 @@ const Squad2App = ({task}) => {
         <Button onClick={handleHistoryOnClick}>Historial</Button>
       </ButtonGroup>
       {
-        manual && <ManualPanel manual={manual} /> ||
-        chronometer && <ChronometerPanel chronometer={chronometer} /> ||
-        history && <HistoryPanel history={history} />
+        manual && <ManualPanel manual={manual} task={task} /> ||
+        chronometer && <ChronometerPanel chronometer={chronometer} task={task}/> ||
+        history && <HistoryPanel history={history} task={task}/>
       }
 
     </Fragment>

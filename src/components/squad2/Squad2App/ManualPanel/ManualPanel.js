@@ -6,7 +6,7 @@ import * as utils from '../utils';
 //import { Typography } from "@material-ui/core";
 //import styles from "./styles";
 
-const ManualPanel = ({ manual }) => {
+const ManualPanel = ({ manual, task }) => {
     const [manualTime, setManualTime] = useState("");
     const {convertToHours,convertToMinutes,convertToSeconds} = utils;
 
@@ -21,7 +21,7 @@ const ManualPanel = ({ manual }) => {
                 "horas": hours,
                 "minutos": minutes,
                 "segundos": 0,
-                "task": 200
+                "task": task.id
               })
         };
 
@@ -34,7 +34,7 @@ const ManualPanel = ({ manual }) => {
         <div>
             {manual &&
                 <Fragment>
-                    <TimePicker setManualTime={setManualTime} />
+                    <TimePicker setManualTime={setManualTime()} />
                     <Button manualtime={manualTime} onClick={() => addManual(manualTime)}>
                         <div>
                             Agregar

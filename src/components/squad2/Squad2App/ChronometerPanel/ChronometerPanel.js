@@ -5,7 +5,7 @@ import Timer from "./Timer";
 import Pomodoro from "../Pomodoro/Pomodoro";
 //import styles from "./styles";
 
-const ChronometerPanel = ({ chronometer }) => {
+const ChronometerPanel = ({ chronometer, task }) => {
     const [pomodoroEnabled, setPomodoroEnabled] = useState(false);
 
     const handleOnChange = (event) => {
@@ -29,8 +29,10 @@ const ChronometerPanel = ({ chronometer }) => {
                         label="Utilizar pomodoro"
                     />
                 }
-            </div>{
-                pomodoroEnabled ? <Pomodoro /> : <Timer />
+            </div>
+           {/* TODO: Por alguna razon no se envía bien la task al componente!!*/}
+            {
+                pomodoroEnabled ? <Pomodoro task={task}/> : <Timer task={task}/>
             }
 
         </div>

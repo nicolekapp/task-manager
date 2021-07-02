@@ -13,7 +13,7 @@ import {
 } from './constants';
 import * as utils from '../utils';
 
-const Pomodoro = () => {
+const Pomodoro = ({task}) => {
   const {convertToHours,convertToMinutes,convertToSeconds} = utils;
   const classes = styles();
   const { button, buttonContainer } = classes;
@@ -76,7 +76,7 @@ const Pomodoro = () => {
               "cycles": cycles,
               "work": session_minutes,
               "pause": break_minutes,
-              "task": 200
+              "task": task.id
             })
       };
 

@@ -15,7 +15,7 @@ export default class HistoryPanel extends Component{
 
     fetchHistory(){
         let historyTimes = null;
-        fetch('https://is3-squad2-tiempos.herokuapp.com/timeTask/getHistory/100')
+        fetch('https://is3-squad2-tiempos.herokuapp.com/timeTask/getHistory/'+ this.props.task.id)
         .then(response => response.json())
         .then(data => historyTimes=data)
         .then(() => this.setState({historyTimes: historyTimes}))
