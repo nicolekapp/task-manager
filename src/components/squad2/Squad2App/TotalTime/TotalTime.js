@@ -11,10 +11,10 @@ export default class TotalTime extends Component{
       componentDidMount(){
 
       }
-    // fetchTotalTime(){
-    //     fetch('https://is3-squad2-tiempos.herokuapp.com/timeTask/getTotalTime/'+this.props.task.id)
-    //     .then(data => this.setState({time: data}))
-    // }
+    fetchTotalTime(){
+        fetch('https://is3-squad2-tiempos.herokuapp.com/timeTask/getTotalTime/'+this.props.task.id)
+        .then(data => this.setState({time: data}))
+    }
     
   render(){
       //TODO: Hacer la consulta con el fetch!!
