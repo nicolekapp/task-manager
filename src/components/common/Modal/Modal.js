@@ -4,10 +4,15 @@ import PropTypes from "prop-types";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Chip from "@material-ui/core/Chip";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changeModalVisibility } from "../../../ducks/modalReducer";
+import {
+  changeModalVisibility,
+  changeCreationMode,
+  changeModificationMode,
+} from "../../../ducks/modalReducer";
 
 import Squad1ModalContent from "../../squad1/Squad1ModalContent";
 import Squad2ModalContent from "../../squad2/Squad2ModalContent";
@@ -15,29 +20,25 @@ import TaskButtonsBar from "../TaskButtonsBar";
 import { Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
-
 const Modal = ({ actions, open, task, totalTime }) => {
   const [selectedTask, setSelectedTask] = useState(null);
-  const [creationMode, setCreationMode] = useState(true);
-  const [modificationMode, setModificationMode] = useState(true);
-  const [totalTimeTest, setTotalTimeTest] = useState(totalTime);
 
-  const handleClose = useCallback(() => actions.changeModalVisibility(), [actions]);
-
-  const handleModificationMode = useCallback(() => {
-    setModificationMode(!modificationMode);
-  }, [modificationMode]);
+  const handleClose = useCallback(() => {
+    actions.changeModalVisibility();
+    actions.changeCreationMode(true);
+    actions.changeModificationMode(false);
+  }, [actions]);
 
   useEffect(() => {
     let t = task;
-    setCreationMode(false);
+    actions.changeCreationMode(false);
     if (task === null) {
       t = null;
-      setCreationMode(true);
+      actions.changeCreationMode(true);
     }
 
     setSelectedTask(t);
-  }, [task]);
+  }, [task, actions]);
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth="xl">
@@ -45,24 +46,31 @@ const Modal = ({ actions, open, task, totalTime }) => {
       <DialogTitle>
         <Grid container direction="row" alignItems="center">
           <Grid item>
-            {!creationMode ? `${selectedTask.name} - ${selectedTask.state}` : "Crear tarea"}
+            {!creationMode ? (
+              <Grid container spacing={2}>
+                <Grid item>{selectedTask.name}</Grid>
+                <Grid item>
+                  <Chip label={selectedTask.state} />
+                </Grid>
+              </Grid>
+            ) : (
+              <Grid container spacing={2}>
+                <Grid item>Crear Tarea</Grid>
+              </Grid>
+            )}
           </Grid>
           <Grid item xs></Grid>
-          <TaskButtonsBar
-            creationMode={creationMode}
-            setModificationMode={handleModificationMode}
-          />
+          <TaskButtonsBar />
         </Grid>
       </DialogTitle>
-      <DialogContent>
-        
-        <Squad1ModalContent creationMode={creationMode} task={task} />
+      <DialogContent>        
+        <Squad1ModalContent/>
       </DialogContent>
       {!creationMode && (
         <DialogContent>
           <div><Typography>Tiempo total dedicado =   {totalTime}</Typography></div>
             <Squad2ModalContent task={task}/>
-          
+
         </DialogContent>
       )}
     </Dialog>
@@ -77,10 +85,15 @@ const mapStateToProps = (state) => ({
   open: state.modalReducer.open,
   task: state.modalReducer.task,
   totalTime: state.modalReducer.totalTime,
+  creationMode: state.modalReducer.creationMode,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ changeModalVisibility }, dispatch),
+  actions: bindActionCreators(
+    { changeModalVisibility, changeCreationMode, changeModificationMode },
+    dispatch
+  ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);

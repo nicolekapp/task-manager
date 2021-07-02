@@ -56,7 +56,7 @@ const TaskCard = ({ actions, task }) => {
               item
             >
               <Grid item>
-                <ActionsButtonGroup state={task.state} />
+                <ActionsButtonGroup state={task.state} id={task.id} />
               </Grid>
             </Grid>
           )}
