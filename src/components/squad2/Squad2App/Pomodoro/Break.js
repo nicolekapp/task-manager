@@ -4,12 +4,12 @@ import Button from "@material-ui/core/Button";
 const Break = (props) => {
     const { increment, decrement, length } = props;
     return (
-        <div>
-            <p>Descanso</p>
+        <div  style={{float:"left", borderStyle:'dashed'}}>
+            <p style={{paddingLeft:30}}>Descanso</p>
             <Button onClick={decrement}>
                 -
         </Button>
-            <span>{length / 60}</span>
+            <span>{length / 60} min</span>
             <Button onClick={increment}>
                 +
         </Button>

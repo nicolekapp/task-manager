@@ -134,17 +134,25 @@ const Pomodoro = ({task}) => {
           Parar
         </Button>
       </div>
-      <div /*className="options"*/>
-        <Break
-          length={breakLength}
-          decrement={decrementBreakLength}
-          increment={incrementBreakLength}
-        />
-        <Session
-          length={sessionLength}
-          decrement={decrementSessionLength}
-          increment={incrementSessionLength}
-        />
+      <div /*className="options"*/ style={{display:'inline'}}>
+        <ul style={{display:'inline'}}>
+          <li style={{display:'inline'}}>
+            <Session
+            length={sessionLength}
+            decrement={decrementSessionLength}
+            increment={incrementSessionLength}
+            />
+          </li>
+          <li style={{display:'inline'}}>
+            <Break
+            length={breakLength}
+            decrement={decrementBreakLength}
+            increment={incrementBreakLength}
+            />
+          </li>
+        </ul>
+        
+
       </div>
     </Fragment>
   );

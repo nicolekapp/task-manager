@@ -7,7 +7,7 @@ const PomodoroTimer = (props) => {
     const sec = Math.floor((time / 1000) % 60);
     return (
         <div>
-            <p>{mode}</p>
+            <p>Sesión</p>
             <p>
                 {min}:{sec.toString().length === 1 ? "0" + sec : sec}
             </p>
