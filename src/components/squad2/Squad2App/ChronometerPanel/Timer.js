@@ -6,7 +6,8 @@ import useTimer from './useTimer';
 import styles from "./styles";
 import Grid from "@material-ui/core/Grid";
 
-const Timer = () => {
+const Timer = (props) => {
+    const { task } = props;
     const classes = styles();
     const { playButton, pauseButton, stopButton, container } = classes;
     const { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset } = useTimer(0);
@@ -31,7 +32,7 @@ const Timer = () => {
                                     <PlayButton className={playButton} onClick={handleResume} />
                             )
                     }
-                    <StopIcon className={stopButton} onClick={handleReset} disabled={!isActive} />
+                    <StopIcon className={stopButton} onClick={() => handleReset(task)} disabled={!isActive} />
                 </Grid>
                 <Grid container item direction="row" spacing={1} xs>
                     <p>{formatTime(timer)}</p>

@@ -29,7 +29,7 @@ const useTimer = (initialState = 0) => {
         }, 1000)
     }
 
-    const handleReset = () => {
+    const handleReset = (task) => {
         //TODO: EL NUMERO DE LA TASK ESTA HARDCODEADO !!!!!
 
         let hours = convertToHours(timer);
@@ -43,7 +43,7 @@ const useTimer = (initialState = 0) => {
                 "horas": hours,
                 "minutos": minutes,
                 "segundos": seconds,
-                "task": 200
+                "task": task.id
               })
         };
 

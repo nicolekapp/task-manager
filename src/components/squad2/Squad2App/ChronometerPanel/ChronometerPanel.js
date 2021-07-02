@@ -6,6 +6,7 @@ import Pomodoro from "../Pomodoro/Pomodoro";
 //import styles from "./styles";
 
 const ChronometerPanel = ({ chronometer, task }) => {
+    
     const [pomodoroEnabled, setPomodoroEnabled] = useState(false);
 
     const handleOnChange = (event) => {
