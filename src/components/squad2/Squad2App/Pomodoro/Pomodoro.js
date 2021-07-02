@@ -11,8 +11,10 @@ import {
   SESSION,
   BREAK
 } from './constants';
+import * as utils from '../utils';
 
 const Pomodoro = () => {
+  const {convertToHours,convertToMinutes,convertToSeconds} = utils;
   const classes = styles();
   const { button, buttonContainer } = classes;
   const [breakLength, setBreakLength] = useState(BREAKDURATION);
@@ -55,8 +57,33 @@ const Pomodoro = () => {
     if (isActive) {
       setIsActive(false);
       setTimeSpent(0);
-      //api call
-    }
+
+      let total_seconds = cycles * (breakLength + sessionLength);
+      let hours = convertToHours(total_seconds);
+      let minutes = convertToMinutes(total_seconds);
+      let seconds = convertToSeconds(total_seconds);
+
+      let session_minutes = convertToMinutes(sessionLength);
+      let break_minutes = convertToMinutes(breakLength);
+
+      const requestOptions = {
+          headers: { 'Content-Type': 'application/json' },
+          method: 'POST',
+          body: JSON.stringify({
+              "horas": hours,
+              "minutos": minutes,
+              "segundos": seconds,
+              "cycles": cycles,
+              "work": session_minutes,
+              "pause": break_minutes,
+              "task": 200
+            })
+      };
+
+      fetch('https://is3-squad2-tiempos.herokuapp.com/Pomodoro/register', requestOptions);
+      
+      setCycles(0);
+      }
   }
   const toggleIsActive = () => {
     setIsActive(!isActive);
@@ -121,6 +148,18 @@ const Pomodoro = () => {
       </div>
     </Fragment>
   );
+
+  function convertHMS(value) {
+    const sec = parseInt(value, 10); // convert value to number if it's string
+    let hours   = Math.floor(sec / 3600); // get hours
+    let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
+    let seconds = sec - (hours * 3600) - (minutes * 60); //  get seconds
+    // add 0 if value < 10; Example: 2 => 02
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return hours+':'+minutes+':'+seconds; // Return is HH : MM : SS
+  }
 };
 
 export default Pomodoro;
