@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from "react";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import PomodoroTimer from './PomodoroTimer';
 import Session from './Session';
@@ -98,7 +97,7 @@ const Pomodoro = () => {
 
   return (
     <Fragment>
-      <Typography variant="h8">Ciclos {cycles}</Typography>
+      <div>Ciclos {cycles}</div>
       <PomodoroTimer time={timeLeft} mode={mode} />
       <div className={buttonContainer}>
         <Button className={button} onClick={toggleIsActive}>
