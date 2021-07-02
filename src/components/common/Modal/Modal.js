@@ -55,7 +55,7 @@ const Modal = ({ actions, open, task }) => {
       </DialogContent>
       {!creationMode && (
         <DialogContent>
-          <Squad2ModalContent />
+          <Squad2ModalContent task={task}/>
         </DialogContent>
       )}
     </Dialog>

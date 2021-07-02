@@ -7,7 +7,7 @@ import HistoryPanel from "./HistoryPanel/HistoryPanel";
 import TotalTime from "./TotalTime/TotalTime";
 //import styles from "./styles";
 
-const Squad2App = () => {
+const Squad2App = ({task}) => {
   const [chronometer, setChronometerClicked] = useState(false);
   const [manual, setManualClicked] = useState(false);
   const [history, setHistoryClicked] = useState(false);
@@ -37,7 +37,7 @@ const Squad2App = () => {
       </ButtonGroup>
       
       <ButtonGroup variant="text" color="primary" aria-label="text primary button group" style={{position:'absolute',right:20}}>
-        <TotalTime />
+        <TotalTime task={task}/>
         <Button onClick={handleHistoryOnClick}>Historial</Button>
       </ButtonGroup>
       {

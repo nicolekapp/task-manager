@@ -19,7 +19,7 @@ export default class TotalTime extends Component{
   render(){
     return(
         <div style={{marginRight:30}}>
-            Tiempo total dedicado: {this.state.time}
+            Tiempo total dedicado: {this.props.task.id}
         </div>           
 
     )
