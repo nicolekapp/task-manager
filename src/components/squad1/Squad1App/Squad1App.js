@@ -10,7 +10,7 @@ import styles from "./styles";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getTasks } from "../../../ducks/tasksReducer";
+import { getTasks, thereIsOneTaskInProgress } from "../../../ducks/tasksReducer";
 
 const Squad1App = ({ actions, tasks }) => {
   const classes = styles();
@@ -37,17 +37,20 @@ const Squad1App = ({ actions, tasks }) => {
           break;
         case "InProgress":
           inProgress.push(task);
-
-          console.log("inp");
           break;
         case "Paused":
-          console.log("pushed");
           paused.push(task);
           break;
         default:
           completed.push(task);
       }
     });
+
+    if (inProgress.length >= 1) {
+      actions.thereIsOneTaskInProgress(true);
+    } else {
+      actions.thereIsOneTaskInProgress(false);
+    }
 
     setCreatedTasks(created);
     setInProgressTasks(inProgress);
@@ -59,7 +62,7 @@ const Squad1App = ({ actions, tasks }) => {
     <div className={classes.root}>
       <Modal />
       <Grid container direction="row" justify="center" spacing={8}>
-        {inProgressTasks.length !== 0 && pausedTasks.length !== 0 && (
+        {(inProgressTasks.length !== 0 || pausedTasks.length !== 0) && (
           <Grid container item direction="column" spacing={1} xs>
             {inProgressTasks.length !== 0 && (
               <CardsContainer title="En Progreso" tasks={inProgressTasks} />
@@ -84,7 +87,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ getTasks }, dispatch),
+  actions: bindActionCreators({ getTasks, thereIsOneTaskInProgress }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Squad1App);
