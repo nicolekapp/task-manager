@@ -60,6 +60,12 @@ const Pomodoro = (props) => {
       setTimeSpent(0);
 
       let total_seconds = cycles * (breakLength + sessionLength);
+      if(mode===SESSION){
+        total_seconds = total_seconds + (sessionLength-(timeLeft/1000));
+      }
+      if(mode===BREAK){
+        total_seconds = total_seconds + sessionLength + (breakLength-(timeLeft/1000));
+      }
       let hours = convertToHours(total_seconds);
       let minutes = convertToMinutes(total_seconds);
       let seconds = convertToSeconds(total_seconds);
