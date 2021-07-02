@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 //import PropTypes from "prop-types";
-import TimePickers from "../TimePicker/TimePicker";
+import TimePicker from "../TimePicker/TimePicker";
 import Button from "@material-ui/core/Button";
 
 //import { Typography } from "@material-ui/core";
@@ -26,7 +26,7 @@ const ManualPanel = ({ manual }) => {
         <div>
             {manual &&
                 <Fragment>
-                    <TimePickers setManualTime={setManualTime} />
+                    <TimePicker setManualTime={setManualTime} />
                     <Button manualtime={manualTime} onClick={() => addManual(manualTime)}>
                         <div>
                             Agregar

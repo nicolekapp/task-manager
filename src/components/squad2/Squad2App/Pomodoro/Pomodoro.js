@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import Button from "@material-ui/core/Button";
 import PomodoroTimer from './PomodoroTimer';
 import Session from './Session';
@@ -17,6 +17,7 @@ const Pomodoro = () => {
   const [timeLeft, setTimeLeft] = useState();
   const [isActive, setIsActive] = useState(false);
   const [timeSpent, setTimeSpent] = useState(0);
+  const [cycles, setCycles] = useState(0);
 
   const decrementBreakLength = () => {
     const decreasedBreakLength = breakLength - 60 > 60 ? breakLength - 60 : 60;
@@ -50,6 +51,7 @@ const Pomodoro = () => {
     if (isActive) {
       setIsActive(false);
       setTimeSpent(0);
+      //api call
     }
   }
   const toggleIsActive = () => {
@@ -77,6 +79,9 @@ const Pomodoro = () => {
     }
     if (timeLeft === 0) {
       setTimeSpent(0);
+      if (mode === BREAK) {
+        setCycles(cycles + 1);
+      }
       setMode((mode) => (mode == SESSION ? BREAK : SESSION));
       setTimeLeft(
         mode == SESSION ? sessionLength * 1000 : breakLength * 1000
@@ -89,13 +94,14 @@ const Pomodoro = () => {
   return (
     <Fragment /*className="text-center"*/>
       <h1>Pomodoro</h1>
+      <p>Cycles: {cycles}</p>
       <PomodoroTimer time={timeLeft} mode={mode} />
       <div /*className="buttons" */>
         <Button onClick={toggleIsActive}>
           {isActive ? "Pausa" : "Comenzar"}
         </Button>
         <Button onClick={reset}>
-          Reiniciar
+          Parar
         </Button>
       </div>
       <div /*className="options"*/>
