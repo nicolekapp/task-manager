@@ -5,10 +5,10 @@ import React, { useState } from "react";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Timer from "./Timer";
+import Pomodoro from "../Pomodoro/Pomodoro";
 
 const ChronometerPanel = ({ chronometer }) => {
     const [pomodoroEnabled, setPomodoroEnabled] = useState(false);
-    const [start, setStart] = useState(false);
 
     const handleOnChange = (event) => {
         setPomodoroEnabled(event.target.checked);
@@ -30,8 +30,10 @@ const ChronometerPanel = ({ chronometer }) => {
                         label="Utilizar pomodoro"
                     />
                 }
-            </div>
-            <Timer />
+            </div>{
+                pomodoroEnabled ? <Pomodoro /> : <Timer />
+            }
+
         </div>
     );
 
