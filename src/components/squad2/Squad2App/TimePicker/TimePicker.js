@@ -14,12 +14,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
 const TimePicker = ({ setManualTime }) => {
     const classes = useStyles();
 
     const handleOnChange = e => {
         setManualTime(e.target.value);
     }
+    //NICKY HELP A(3/3)
+    // const resetTime = () => {
+    //     setManualTime("00:00");
+    // }
+
     return (
         <form className={classes.container} noValidate>
             <TextField
