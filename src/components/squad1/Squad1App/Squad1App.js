@@ -22,7 +22,7 @@ const Squad1App = ({ actions, tasks }) => {
 
   useEffect(() => {
     actions.getTasks();
-  }, []);
+  }, [actions]);
 
   useEffect(() => {
     const created = [];
