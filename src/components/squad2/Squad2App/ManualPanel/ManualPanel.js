@@ -1,9 +1,6 @@
 import React, { Fragment, useState } from "react";
-//import PropTypes from "prop-types";
 import TimePicker from "../TimePicker/TimePicker";
 import Button from "@material-ui/core/Button";
-
-//import { Typography } from "@material-ui/core";
 //import styles from "./styles";
 
 const ManualPanel = ({ manual }) => {
