@@ -9,11 +9,37 @@ import DoneIcon from "@material-ui/icons/Done";
 
 import styles from "./styles";
 
-const ActionsButtonGroup = ({ state }) => {
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { getTasks } from "../../../../ducks/tasksReducer";
+
+const ActionsButtonGroup = ({ actions, id, state, running }) => {
   const classes = styles();
 
-  const handlePlayAction = useCallback(() => console.log("PLAY ACTION"), []);
-  const handlePauseAction = useCallback(() => console.log("PAUSE ACTION"), []);
+  const newFunction = async (state) => {
+    await fetch(`http://timetra.herokuapp.com/task/${id}`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        state: state,
+      }),
+    })
+      .then(() => {
+        actions.getTasks();
+      })
+      .then((err) => {
+        console.log(err);
+      });
+  };
+
+  const handlePlayAction = useCallback(async () => newFunction("InProgress"), [newFunction]);
+
+  const handlePauseAction = useCallback(async () => newFunction("Paused"), [newFunction]);
+
+  const handleCompleteTask = useCallback(async () => newFunction("Completed"), [newFunction]);
 
   const [actionIcon, setActionIcon] = useState(
     <PlayButton className={`${classes.playButton} ${classes.actionButton}`} />
@@ -34,13 +60,17 @@ const ActionsButtonGroup = ({ state }) => {
       disableElevation
     >
       {state !== "Created" && (
-        <Button startIcon={<DoneIcon color="primary" className={classes.actionButton} />}>
+        <Button
+          startIcon={<DoneIcon color="primary" className={classes.actionButton} />}
+          onClick={handleCompleteTask}
+        >
           Finalizar
         </Button>
       )}
       <Button
         startIcon={actionIcon}
         onClick={state === "InProgress" ? handlePauseAction : handlePlayAction}
+        disabled={state !== "InProgress" && running}
       >
         {state === "InProgress" ? "Pausar" : state === "Paused" ? "Retomar" : "Iniciar"}
       </Button>
@@ -48,8 +78,12 @@ const ActionsButtonGroup = ({ state }) => {
   );
 };
 
-ActionsButtonGroup.propTypes = {
-  state: PropTypes.string,
-};
+const mapStateToProps = (state) => ({
+  running: state.tasksReducer.running,
+});
 
-export default ActionsButtonGroup;
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ getTasks }, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ActionsButtonGroup);
